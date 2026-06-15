@@ -1459,7 +1459,7 @@ html.mobile-device .theme-switch{display:none}
 html.mobile-device .side-toggle{display:none}
 /* ===== モバイル：ナビを下タブバー化 + 上部ブランドヘッダー（別アプリ準拠）===== */
 .m-topbar{display:none}
-html.mobile-device .m-topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;position:sticky;top:0;z-index:35;background:var(--primary);color:#FFFFFF;padding:9px 14px;border-bottom:1px solid var(--structure)}
+html.mobile-device .m-topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;position:sticky;top:0;z-index:35;background:var(--primary);color:#FFFFFF;padding:9px 14px;padding-top:calc(9px + env(safe-area-inset-top, 0px));border-bottom:1px solid var(--structure)}
 html.mobile-device .m-topbar-brand{display:flex;align-items:center;gap:8px;min-width:0;flex:1 1 auto}
 .m-topbar-mark{width:24px;height:24px;background:#FFFFFF;border-radius:2px;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
 .m-topbar-mark svg{stroke:var(--primary)}
@@ -1480,11 +1480,11 @@ html.mobile-device .ph .pt{display:none}
 html.mobile-device .ph{margin-bottom:8px}
 /* 下タブバー：別アプリ(order calendar)の作法を完全踏襲。グループ見出し＋緑の上罫でアクティブを明示 */
 .m-tabgroups{display:none}
-html.mobile-device .m-tabgroups{display:flex;position:fixed;left:0;right:0;bottom:56px;z-index:40;height:22px;background:#FFFFFF;border-top:2px solid var(--structure);align-items:stretch}
+html.mobile-device .m-tabgroups{display:flex;position:fixed;left:0;right:0;bottom:calc(56px + env(safe-area-inset-bottom, 0px));z-index:40;height:22px;background:#FFFFFF;border-top:2px solid var(--structure);align-items:stretch}
 .m-tg{display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:700;color:var(--txt3);letter-spacing:.06em}
 .m-tg-a{flex:2}.m-tg-b{flex:4}.m-tg-c{flex:3}
 .m-tg-b,.m-tg-c{border-left:1px solid #D2D2D2}
-html.mobile-device .side{position:fixed;bottom:0;left:0;right:0;top:auto;z-index:40;display:flex;flex-direction:row;flex-wrap:nowrap;width:100%;max-width:100%;height:56px;background:#FFFFFF;border-right:none;border-top:1px solid var(--hairline);border-bottom:none;padding:0;gap:0;overflow:hidden;-webkit-overflow-scrolling:touch}
+html.mobile-device .side{position:fixed;bottom:0;left:0;right:0;top:auto;z-index:40;display:flex;flex-direction:row;flex-wrap:nowrap;width:100%;max-width:100%;height:calc(56px + env(safe-area-inset-bottom, 0px));background:#FFFFFF;border-right:none;border-top:1px solid var(--hairline);border-bottom:none;padding:0;padding-bottom:env(safe-area-inset-bottom, 0px);gap:0;overflow:hidden;-webkit-overflow-scrolling:touch}
 html.mobile-device .slogo{display:none}
 html.mobile-device .comp-bar{display:none}
 html.mobile-device .side .ni{position:relative;flex:1 1 0;min-width:0;align-self:stretch;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;height:56px;min-height:0;padding:6px 2px 5px;white-space:nowrap;font-size:10px;color:#9A9A9A;background:#F6F6F6;border-radius:0;border-top:3px solid transparent;border-bottom:none;transition:background .15s,color .15s}
@@ -1496,7 +1496,7 @@ html.mobile-device .side .ni::after{content:attr(data-short);font-size:9.5px;lin
 html.mobile-device .side .ni.on{background:#FFFFFF;color:var(--primary);border-top-color:var(--primary)}
 html.mobile-device .side .ni.on::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:var(--primary);border-radius:0}
 html.mobile-device .side .ni.on::after{font-weight:700}
-html.mobile-device .body{padding-bottom:82px}
+html.mobile-device .body{padding-bottom:calc(82px + env(safe-area-inset-bottom, 0px))}
 /* ===== タブ遷移オーバーレイ ===== */
 /* 別アプリ(order calendar)のジャンプ演出に一致：緑のスクリム + 流れるシェブロン + カード出現 */
 .nav-transition{position:fixed;inset:0;z-index:300;display:none;align-items:center;justify-content:center;background:rgba(10,30,18,0.5);-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px)}
