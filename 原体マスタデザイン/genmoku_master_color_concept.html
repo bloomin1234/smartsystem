@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>原体マスタ 配色案 — SMART ORDER / SMART STOCK</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#F2F3EF;font-family:'Noto Sans JP',sans-serif;color:#0A0A0A;-webkit-font-smoothing:antialiased}
+  .app{max-width:1080px;margin:0 auto;padding:28px 24px 48px;--ac:#0F5132;--acl:#EAF1EC}
+
+  .switcher{display:inline-flex;gap:4px;background:#fff;border:1px solid #E4E6E2;border-radius:2px;padding:4px;margin-bottom:20px}
+  .sw-btn{border:none;background:transparent;font-family:inherit;font-size:13px;font-weight:500;color:#6B6E68;padding:7px 16px;border-radius:2px;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+  .sw-btn.active{background:var(--acl);color:var(--ac)}
+  .sw-dot{width:9px;height:9px;border-radius:50%;background:currentColor;display:inline-block}
+
+  .card{background:#fff;border:1px solid #E4E6E2;border-radius:2px;padding:22px 24px}
+  .syslabel{font-size:11px;font-weight:500;letter-spacing:.08em;color:var(--ac);margin-bottom:4px}
+  .title{display:flex;align-items:center;gap:9px;margin-bottom:8px}
+  .title h1{font-size:18px;font-weight:500;margin:0}
+  .title .ic{color:var(--ac);display:flex}
+
+  .tabs{display:flex;gap:20px;border-bottom:1px solid #E4E6E2;margin-bottom:18px}
+  .tab{font-size:13px;color:#6B6E68;padding:9px 0}
+  .tab.active{font-weight:500;color:var(--ac);border-bottom:2px solid var(--ac);margin-bottom:-1px}
+
+  .actions{display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:6px;font-family:inherit;font-size:13px;border-radius:2px;padding:8px 14px;cursor:pointer}
+  .btn-primary{background:var(--ac);color:#fff;border:none;font-weight:500}
+  .btn-secondary{background:#fff;color:var(--ac);border:1px solid var(--ac)}
+  .spacer{flex:1}
+  .filter{display:inline-flex;align-items:center;justify-content:space-between;gap:8px;background:#fff;border:1px solid #D9DCD6;border-radius:2px;padding:7px 12px;font-size:13px;min-width:96px}
+  .filter .ic{color:#8A8F88;display:flex}
+
+  .tablewrap{overflow-x:auto}
+  table.master{width:100%;min-width:620px;border-collapse:separate;border-spacing:0;font-size:13px;border:1px solid #E4E6E2;border-radius:2px;overflow:hidden}
+  table.master th{background:var(--ac);color:#fff;font-weight:500;text-align:left;padding:11px 14px;font-size:12px}
+  table.master td{padding:9px 14px;border-bottom:1px solid #EEF0EC;background:#fff;vertical-align:middle}
+  table.master tbody td:first-child{border-left:3px solid var(--ac)}
+  table.master thead th:first-child{border-left:3px solid var(--ac)}
+  table.master tbody tr.off td{background:#ECECE6;color:#6E716A}
+  table.master tbody tr.off td:first-child{border-left-color:#D5D5CF}
+  .col-id{width:54px}
+  .col-mk{width:188px}
+  .col-st{width:122px;text-align:center}
+
+  .fsel{display:inline-flex;align-items:center;justify-content:space-between;gap:10px;background:#fff;border:1px solid #D9DCD6;border-radius:2px;padding:6px 10px;font-size:13px;width:170px}
+  .fsel .ic{color:#8A8F88;display:flex}
+  .fsel .ph{color:#A8ABA4}
+  tr.off .fsel{background:#F4F4EF;border-color:#E2E2DC;color:#8A8D86}
+  tr.off .fsel .ic{color:#BFC3BC}
+
+  .vis{display:inline-flex;align-items:center;gap:6px;border-radius:2px;padding:5px 11px;font-size:12px;font-weight:500;font-family:inherit;cursor:pointer;line-height:1}
+  .vis .ic{display:flex}
+  .vis.on{border:1px solid var(--ac);background:var(--acl);color:var(--ac)}
+  .vis.off{border:1px solid #C7C7C0;background:#EDEDE7;color:#82857E}
+
+  .errchip{display:inline-block;margin-left:8px;background:#FCEBEB;color:#D7261E;font-size:11px;padding:1px 7px;border-radius:2px}
+
+  .legend{margin-top:18px;font-size:12px;color:#6B6E68;line-height:2}
+  .legend .row{display:flex;align-items:center;gap:9px;margin-bottom:2px}
+  .legend b{font-weight:500;color:#0A0A0A}
+  .legend .sample-rail{width:14px;height:18px;border-left:3px solid var(--ac);background:#fff;display:inline-block}
+  .legend .sample-off{width:24px;height:18px;background:#ECECE6;border:1px solid #DDDDD6;display:inline-block;border-radius:2px}
+
+  .btn:focus-visible,.vis:focus-visible,.sw-btn:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+  @media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+
+  <div class="switcher" role="tablist" aria-label="システム切替">
+    <button class="sw-btn active" id="sw-order" onclick="switchSystem('order')"><span class="sw-dot"></span>受注 SMART ORDER</button>
+    <button class="sw-btn" id="sw-stock" onclick="switchSystem('stock')"><span class="sw-dot"></span>仕入 SMART STOCK</button>
+  </div>
+
+  <div class="card">
+    <div class="syslabel" id="syslabel">受注 · SMART ORDER</div>
+    <div class="title">
+      <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21c.4-3.5 2-7 6-9"/><path d="M5 21c10 0 16-4 16-15 0 0-9-2-13 3-2.5 3-1.5 8-3 12z"/></svg></span>
+      <h1>原体管理</h1>
+    </div>
+
+    <div class="tabs">
+      <span class="tab active">原体リスト</span>
+      <span class="tab">メーカー名</span>
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-primary"><span class="ic"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>新規登録</button>
+      <button class="btn btn-secondary"><span class="ic"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19h14"/></svg></span>CSVダウンロード</button>
+      <button class="btn btn-secondary"><span class="ic"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V4M7.5 8.5 12 4l4.5 4.5M5 19h14"/></svg></span>CSVアップロード</button>
+      <span class="spacer"></span>
+      <div class="filter">全て<span class="ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></div>
+    </div>
+
+    <div class="tablewrap">
+    <table class="master">
+      <thead>
+        <tr>
+          <th class="col-id">ID</th>
+          <th>原体名</th>
+          <th>読み / JAN</th>
+          <th class="col-mk">メーカー名</th>
+          <th class="col-st">表示状態</th>
+        </tr>
+      </thead>
+      <tbody id="tbody">
+        <tr>
+          <td>10</td><td>だいこん</td>
+          <td>1234567896789<span class="errchip">JAN重複</span></td>
+          <td><span class="fsel">カンロ1<span class="ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></span></td>
+          <td class="col-st"><button class="vis on" onclick="flipVis(this)" aria-label="表示・非表示の切替"><span class="ic"></span><span class="vlabel">表示</span></button></td>
+        </tr>
+        <tr>
+          <td>11</td><td>じゃがいも</td><td>Potato</td>
+          <td><span class="fsel">カンロ1<span class="ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></span></td>
+          <td class="col-st"><button class="vis on" onclick="flipVis(this)" aria-label="表示・非表示の切替"><span class="ic"></span><span class="vlabel">表示</span></button></td>
+        </tr>
+        <tr>
+          <td>12</td><td>人参</td><td>Ginseng</td>
+          <td><span class="fsel">ロッデ<span class="ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></span></td>
+          <td class="col-st"><button class="vis on" onclick="flipVis(this)" aria-label="表示・非表示の切替"><span class="ic"></span><span class="vlabel">表示</span></button></td>
+        </tr>
+        <tr>
+          <td>13</td><td>玉ねぎ</td><td>—</td>
+          <td><span class="fsel">カンロ1<span class="ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></span></td>
+          <td class="col-st"><button class="vis on" onclick="flipVis(this)" aria-label="表示・非表示の切替"><span class="ic"></span><span class="vlabel">表示</span></button></td>
+        </tr>
+        <tr class="off">
+          <td>14</td><td>ごぼう</td><td>—</td>
+          <td><span class="fsel"><span class="ph">未設定</span><span class="ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></span></td>
+          <td class="col-st"><button class="vis off" onclick="flipVis(this)" aria-label="表示・非表示の切替"><span class="ic"></span><span class="vlabel">非表示</span></button></td>
+        </tr>
+        <tr class="off">
+          <td>15</td><td>メークイン</td><td>—</td>
+          <td><span class="fsel"><span class="ph">未設定</span><span class="ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></span></td>
+          <td class="col-st"><button class="vis off" onclick="flipVis(this)" aria-label="表示・非表示の切替"><span class="ic"></span><span class="vlabel">非表示</span></button></td>
+        </tr>
+        <tr>
+          <td>20</td><td>キャベツ</td><td>cabbage</td>
+          <td><span class="fsel">ABCDEF<span class="ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></span></td>
+          <td class="col-st"><button class="vis on" onclick="flipVis(this)" aria-label="表示・非表示の切替"><span class="ic"></span><span class="vlabel">表示</span></button></td>
+        </tr>
+        <tr class="off">
+          <td>33</td><td>ピーマン</td><td>Bell Pepper</td>
+          <td><span class="fsel"><span class="ph">未設定</span><span class="ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></span></span></td>
+          <td class="col-st"><button class="vis off" onclick="flipVis(this)" aria-label="表示・非表示の切替"><span class="ic"></span><span class="vlabel">非表示</span></button></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+    <div class="legend">
+      <div class="row"><span class="sample-rail"></span><b>表示中</b>＝白い行＋左端アクセント帯。状態ボタンは <b>目アイコン＋「表示」</b>（アクセント色）。</div>
+      <div class="row"><span class="sample-off"></span><b>非表示</b>＝行をグレーに沈める。状態ボタンは <b>斜線の目＋「非表示」</b>（グレー）。</div>
+      <div class="row"><span class="errchip" style="margin-left:0">赤</span>はエラー専用（JAN重複・必須未入力など）。状態表示には使いません。</div>
+      <div class="row" style="margin-top:6px;color:#83867F">状態ボタンはクリックで切替できます。上部のボタンで受注（緑）／仕入（ネイビー）を切替。</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  var EYE  = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.5"/><path d="M2 12c2.5-4.5 6-6.8 10-6.8s7.5 2.3 10 6.8c-2.5 4.5-6 6.8-10 6.8S4.5 16.5 2 12z"/></svg>';
+  var EYEOFF = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.6 10.6a2 2 0 0 0 2.8 2.8"/><path d="M16.7 16.7A9 9 0 0 1 12 18.8c-4 0-7.5-2.3-10-6.8a16 16 0 0 1 4.4-5M9.6 5.4A9 9 0 0 1 12 5.2c4 0 7.5 2.3 10 6.8a16 16 0 0 1-2.3 3.1"/><path d="M3 3l18 18"/></svg>';
+
+  function paintIcons(){
+    document.querySelectorAll('.vis').forEach(function(b){
+      var on = b.classList.contains('on');
+      b.querySelector('.ic').innerHTML = on ? EYE : EYEOFF;
+    });
+  }
+
+  function flipVis(btn){
+    var nowOn = btn.classList.contains('off');
+    btn.classList.toggle('on', nowOn);
+    btn.classList.toggle('off', !nowOn);
+    var tr = btn.closest('tr');
+    if(tr) tr.classList.toggle('off', !nowOn);
+    btn.querySelector('.ic').innerHTML = nowOn ? EYE : EYEOFF;
+    btn.querySelector('.vlabel').textContent = nowOn ? '表示' : '非表示';
+  }
+
+  function switchSystem(sys){
+    var app = document.getElementById('app');
+    if(sys === 'order'){
+      app.style.setProperty('--ac', '#0F5132');
+      app.style.setProperty('--acl', '#EAF1EC');
+      document.getElementById('syslabel').textContent = '受注 · SMART ORDER';
+    } else {
+      app.style.setProperty('--ac', '#1A3A63');
+      app.style.setProperty('--acl', '#ECF0F5');
+      document.getElementById('syslabel').textContent = '仕入 · SMART STOCK';
+    }
+    document.getElementById('sw-order').classList.toggle('active', sys === 'order');
+    document.getElementById('sw-stock').classList.toggle('active', sys === 'stock');
+  }
+
+  paintIcons();
+</script>
+</body>
+</html>
